@@ -1,0 +1,22 @@
+{
+  "name": "port_manager",
+  "version": "1.0.0",
+  "description": "both server & client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run -p start-client | npm run -p start-server" ,
+    "start-client": ".\\startClient.sh",
+    "start-server": " node .\\server\\index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shanirahamim/port_manager.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shanirahamim/port_manager/issues"
+  },
+  "homepage": "https://github.com/shanirahamim/port_manager#readme"
+}

@@ -1,0 +1,25 @@
+#vesseles-list-container{
+    height: 80%;
+    font-family: 'Segoe UI';
+    font-size: 20px;
+    color: #000000;
+    overflow-y: scroll;
+    ul{
+        list-style: none;
+        
+        li{
+            display: flex;
+            justify-content: baseline;
+            padding: 10px;
+            border: 1px solid pink;
+
+            .vessel-container{
+                width: 100%;
+
+            }
+
+        }
+    }
+
+    
+}
