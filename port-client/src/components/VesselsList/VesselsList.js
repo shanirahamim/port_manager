@@ -4,6 +4,7 @@ import './VesselsList.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import Vessel from '../Vessel/Vessel';
+import { Link, BrowserRouter as Router } from 'react-router-dom';
 
 const VesselsList = ({ loading, error, vessels }) => {
     let content;
@@ -30,13 +31,20 @@ const VesselsList = ({ loading, error, vessels }) => {
         </div>);
     } else if (vessels && vessels.length > 0) {
         content = (<div>
+            
             <ul>
+                
                 {vessels.map((vessel) => {
                     return (<li className="vessel-container" key={vessel.id} >
+                    <Link to={`/${vessel.id}`}>
+                    
                         <Vessel vessel={vessel}></Vessel>
+                        
+                        </Link>
                     </li>);
                 })}
             </ul>
+            
         </div>);
     }
 

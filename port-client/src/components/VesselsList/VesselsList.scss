@@ -1,5 +1,6 @@
 #vesseles-list-container{
-    height: 80%;
+    height: 86%;
+    min-height: 300px;
     font-family: 'Segoe UI';
     font-size: 20px;
     color: #000000;
@@ -23,3 +24,12 @@
 
     
 }
+
+
+@media (max-width:1600px){
+
+    #vesseles-list-container {       
+        height: 52%;
+    }
+  }
+  

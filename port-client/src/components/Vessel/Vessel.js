@@ -8,23 +8,28 @@ import { Button } from 'reactstrap';
 const Vessel = ({ vessel }) => {
 
     const getStatus = () => {
-        let statusClass, statusText;
+        let statusClass, statusText, timerContent= ["", "", ""];
 
 
         if (!vessel.status) {
             statusClass = "status status-gray";
             statusText = "status unavailable";
+            timerContent = "";
         } else {
             statusClass = `status status-${vessel.status.name == "DOC_IN_PORT" ? "green" : "gray"}`;
             statusText = vessel.status.display;
+
+            if(vessel.status.name == "DOC_IN_PORT")
+            timerContent = (<TimeCounter startAt={vessel.timeIntervalsInTorruga[vessel.timeIntervalsInTorruga.length - 1].start}
+                ></TimeCounter>);
         }
 
-        return (<div className="status-container">
+        return (<div className="status-container clickable">
             <span>
                 <FontAwesomeIcon icon="circle" className={statusClass} />
                 {statusText}</span>
             <div className="timer-container">
-                <TimeCounter startAt={vessel.timeIntervalsInTorruga[vessel.timeIntervalsInTorruga.length - 1].start}></TimeCounter>
+                {timerContent}
             </div>
         </div>);
     }

@@ -11,7 +11,7 @@ const ENDPOINT = "http://127.0.0.1:8111";
 export default function WsDashboard() {
     const [vessels, setVessels] = useState([]);
     const [test, setTest] = useState("from clien");
-    const [filterBy, setFilterBy] = useState("");
+    const [filterBy, setFilterBy] = useState({only_in_doc: false, name:""});
 
     useEffect(() => {
         const socket = socketIOClient(ENDPOINT);
@@ -34,17 +34,21 @@ export default function WsDashboard() {
 
     return (
         <div id="ws-dashboard">
-            {test}
-
             <Nav vertical id="vessels-nav">
                 <NavItem >
-                <div id="filter-by">
-                    <FontAwesomeIcon icon="search" />
-                    <input placeholder="Filter Ships.." type="text" onChange={(event) => {
-                        let filter = event.target.value ? event.target.value.toLocaleLowerCase() : "";
-                        setFilterBy(filter);
-                    }} />
-                </div>
+                    <div id="filter-by">
+                        <input placeholder="Filter Ships.." value={filterBy.name} type="text" onChange={(event) => {
+                            let filter = event.target.value ? event.target.value.toLocaleLowerCase() : "";
+                            setFilterBy({ ...filterBy, name: filter});
+                        }} />
+                        <FontAwesomeIcon icon="search" />
+
+
+                        <FontAwesomeIcon icon={filterBy.only_in_doc?"toggle-on":"toggle-off"} onClick={(e) => {
+                            setFilterBy({ ...filterBy, only_in_doc: !filterBy.only_in_doc})
+                            }}/> only in doc
+                        
+                    </div>
                 </NavItem>
                 {/* <InputGroup className="">
                 <InputGroupAddon addonType="prepend">
@@ -56,13 +60,19 @@ export default function WsDashboard() {
                 }}/>
                 
             </InputGroup> */}
-            <NavItem >
-                <VesselsList vessels={filterBy.length == 0 ? vessels :
-                    vessels.filter((vessel) => {
-                        return vessel.name.toLocaleLowerCase().indexOf(filterBy) != -1;
-                    })}></VesselsList>
-                    </NavItem>
+                <NavItem >
+                    <VesselsList vessels={filterBy.length == 0 ? vessels :
+                        vessels.filter((vessel) => {
+                            let filtered = true;
+                            console.log(vessel,filterBy)
+                            if(filterBy.only_in_doc){
+                                filtered = vessel.status.name == "DOC_IN_PORT"; 
+                            }
+                            return vessel.name.toLocaleLowerCase().indexOf(filterBy.name) != -1 && filtered;
+                        })}></VesselsList>
+                </NavItem>
             </Nav>
+            {test}
         </div>
     );
 }
