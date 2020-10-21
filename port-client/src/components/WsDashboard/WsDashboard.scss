@@ -2,6 +2,12 @@
     padding: 10px;
     margin-top: 3px;
     background: #e5e8ea;
+    display: flex;
+    line-height: 16pt;
+    text-transform: capitalize;
+    color: white;
+    justify-content: space-between;
+    background: #5d91b7;
     input {
         width: 92%;
         margin-right: -24px;
@@ -11,6 +17,7 @@
         padding-left: 20px;
         border-radius: 8px;
     }
+    
 }
 .nav#vessels-nav {
     flex-wrap: nowrap;

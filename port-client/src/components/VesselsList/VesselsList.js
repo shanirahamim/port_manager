@@ -4,10 +4,11 @@ import './VesselsList.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import Vessel from '../Vessel/Vessel';
-import { Link, BrowserRouter as Router } from 'react-router-dom';
+import { Link, BrowserRouter as Router, useHistory } from 'react-router-dom';
 
 const VesselsList = ({ loading, error, vessels }) => {
     let content;
+    const history = useHistory();
     
 //   async function fetchData() {
 //     const res = await fetch("https://swapi.co/api/planets/4/");
@@ -35,12 +36,15 @@ const VesselsList = ({ loading, error, vessels }) => {
             <ul>
                 
                 {vessels.map((vessel) => {
-                    return (<li className="vessel-container" key={vessel.id} >
-                    <Link to={`/${vessel.id}`}>
+                    return (<li className="vessel-container" key={vessel.id} onClick={(e) => {
+                       // document.location = `/${vessel.id}`;
+                       history.push( `/${vessel.id}`);
+                        }} >
+                   
                     
                         <Vessel vessel={vessel}></Vessel>
                         
-                        </Link>
+                        <Link to={`/${vessel.id}`}></Link>
                     </li>);
                 })}
             </ul>

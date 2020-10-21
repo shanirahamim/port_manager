@@ -37,16 +37,19 @@ export default function WsDashboard() {
             <Nav vertical id="vessels-nav">
                 <NavItem >
                     <div id="filter-by">
+                        <span>
                         <input placeholder="Filter Ships.." value={filterBy.name} type="text" onChange={(event) => {
                             let filter = event.target.value ? event.target.value.toLocaleLowerCase() : "";
                             setFilterBy({ ...filterBy, name: filter});
                         }} />
                         <FontAwesomeIcon icon="search" />
 
-
+                        </span>
+                        <span>
                         <FontAwesomeIcon icon={filterBy.only_in_doc?"toggle-on":"toggle-off"} onClick={(e) => {
                             setFilterBy({ ...filterBy, only_in_doc: !filterBy.only_in_doc})
-                            }}/> only in doc
+                            }}/> show only in doc
+                            </span>
                         
                     </div>
                 </NavItem>

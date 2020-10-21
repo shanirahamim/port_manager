@@ -1,35 +1,32 @@
-#vesseles-list-container{
+#vesseles-list-container {
     height: 86%;
-    min-height: 300px;
-    font-family: 'Segoe UI';
+    font-family: "Segoe UI";
     font-size: 20px;
     color: #000000;
     overflow-y: scroll;
-    ul{
+    background-color: #2f5a7996;
+    min-height: 300px;
+    max-height: 897px;
+    ul {
         list-style: none;
-        
-        li{
+
+        li {
             display: flex;
             justify-content: baseline;
             padding: 10px;
-            border: 1px solid pink;
+            margin: 10px 10px 10px 10px;
+            background: #c1c1d287;
 
-            .vessel-container{
+            .vessel-container {
                 width: 100%;
-
             }
-
         }
     }
-
-    
 }
 
-
-@media (max-width:1600px){
-
-    #vesseles-list-container {       
+@media (max-width: 1600px) {
+    #vesseles-list-container {
         height: 52%;
+        max-height: 850px;
     }
-  }
-  
+}
