@@ -15,7 +15,6 @@ async function getAll(request, response) {
 async function getById(request, response) {
     try{
         if(!request.params && !request.params.id){
-            console.log(request.params);
             response.status(400).send(new ResponseContainer(null , `id not specified`));
             return;
         }

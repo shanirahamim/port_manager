@@ -7,6 +7,10 @@ class VesselRepository {
         this.vesselModel = new Vessel();
     }
 
+    calcOverLappingVessels = (veesselId, veesselName, start, end) => {
+        return this.vesselModel.calcOverLappingVessels(veesselId, veesselName, start, end)
+    }
+
     getAll = async () => {
         return await this.vesselModel.getAll();
     }
@@ -31,6 +35,7 @@ class VesselRepository {
     create = async (vessel) => {
         return await this.vesselModel.create(vessel);
     }
+
 }
 
 module.exports = VesselRepository;

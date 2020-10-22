@@ -1,8 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
 import './TimeCounter.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Button } from 'reactstrap';
 
 const TimeCounter = ({ startAt, endAt }) => {
 
@@ -12,6 +10,7 @@ const TimeCounter = ({ startAt, endAt }) => {
         // disable moving timer if period was given in advanced
         if(endAt && !timeInDock){
             setTimeInDock(calculateTime());
+
             return;
         }
         const timer=setInterval(() => {
@@ -20,12 +19,12 @@ const TimeCounter = ({ startAt, endAt }) => {
           // Clear timeout if the component is unmounted
           return () => clearTimeout(timer);
         
-    },[timeInDock]);
+    },[timeInDock, endAt]);
 
    const calculateTime = () => {
         let result = {};
 
-        if (timeInDock && !endAt) { // only increase timer
+        if (timeInDock && (!endAt || isNaN(endAt))) { // only increase timer
             if (timeInDock.seconds !== 59) {
                 result.seconds = timeInDock.seconds+1;
                 result.minutes = timeInDock.minutes;
@@ -66,7 +65,7 @@ const TimeCounter = ({ startAt, endAt }) => {
     }
 
     return (<div className="timer">
-         <div>
+         <div className="days">
             {timeInDock.days > 0 ? `${timeInDock.days} days   `: ""}
         </div>
         <div>

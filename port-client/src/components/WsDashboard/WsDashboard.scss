@@ -29,15 +29,14 @@
 }
 
 .container.page{
-    flex-wrap: nowrap;
-    width: 69%;
+    width: 64%;
     left: 31%;
-    display: flex;
+    height: 81%;
     position: absolute;
-    height: 99%;
+    min-height: 600px;
     overflow: hidden;
+    margin: 36px;
+    background: #ffffff47;
 }
-@media (max-width:1600px){
 
-  }
   

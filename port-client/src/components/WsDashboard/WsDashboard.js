@@ -6,20 +6,19 @@ import { InputGroup, InputGroupAddon, Button, Input, Nav, NavItem } from 'reacts
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './WsDashboard.scss';
 import { config } from '../../config';
+import { veeselsConstants } from '../../constants/veesels.constants';
 
-export default function WsDashboard() {
+export default function WsDashboard({onVesselsUpdated}) {
     const [vessels, setVessels] = useState([]);
     const [test, setTest] = useState("from clien");
     const [filterBy, setFilterBy] = useState({ only_in_doc: false, name: "" });
 
     useEffect(() => {
         const socket = socketIOClient(config.WEB_SOCKETS_SERVER_URL);
-        let vesselsA = vessels;
 
         socket.on("vessels_updated", data => {
-            //console.log(data);
-            vesselsA = data;
             setVessels(data);
+            onVesselsUpdated(data);
         });
 
         socket.on("test", (data, a) => {
@@ -66,13 +65,14 @@ export default function WsDashboard() {
                         vessels.filter((vessel) => {
                             let filtered = true;
                             if (filterBy.only_in_doc) {
-                                filtered = vessel.status.name == "DOC_IN_PORT";
+                                filtered = vessel.status.name == veeselsConstants.STATUSES.DOC_IN_PORT;
                             }
                             return vessel.name.toLocaleLowerCase().indexOf(filterBy.name) != -1 && filtered;
                         })}></VesselsList>
                 </NavItem>
+                <NavItem >{test}</NavItem>
             </Nav>
-            {test}
+            
         </div>
     );
 }

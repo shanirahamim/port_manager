@@ -1,4 +1,10 @@
 export const veeselsConstants = {
+
+    STATUSES: {
+        DOC_IN_PORT: 'DOC_IN_PORT',
+        OUT: 'OUT'
+    },
+
     ARRIVED_ENDPOINT : '/vessels',
     ARRIVED_METHOD : 'POST',
     ARRIVED_REQUEST: 'ARRIVED_REQUEST',
@@ -19,7 +25,11 @@ export const veeselsConstants = {
     GET_BY_ID_SUCCESS: 'GET_BY_ID_SUCCESS',
     GET_BY_ID_FAILURE: 'GET_BY_ID_FAILURE',
 
-
+    GET_ALL_ENDPOINT: '/vessels',
+    GET_ALL_METHOD: 'GET',
+    GET_ALL_REQUEST: 'GET_ALL_REQUEST',
+    GET_ALL_SUCCESS: 'GET_ALL_SUCCESS',
+    GET_ALL_FAILURE: 'GET_ALL_FAILURE',
 
     MARK_LEFT_ENDPOINT: '/vessels/${id}',
     MARK_LEFT_METHOD: 'PUT',

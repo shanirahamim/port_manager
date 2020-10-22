@@ -38,6 +38,22 @@ export default function get_vessels_reducer(state = initialState, action) {
         waiting: false,
         error: action.error
       };
+      case veeselsConstants.GET_ALL_REQUEST:
+        return {
+          waiting: true,
+          updated: false
+        };
+      case veeselsConstants.GET_ALL_SUCCESS:
+        return {
+          waiting: false,
+          updated: true,
+          veessels: action.data.data
+        };
+      case veeselsConstants.GET_ALL_FAILURE:
+        return {
+          waiting: false,
+          error: action.error
+        };
     case veeselsConstants.MARK_LEFT_REQUEST:
       return {
         waiting: true,

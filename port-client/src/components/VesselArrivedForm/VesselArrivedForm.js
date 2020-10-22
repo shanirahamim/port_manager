@@ -1,8 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import './VesselArrivedForm.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Button, Container, Form } from 'reactstrap';
+import { Button, Form } from 'reactstrap';
 import * as actions from '../../actions/vessels.actions';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -18,7 +17,6 @@ const VesselArrivedForm = ({  }) => {
     }
 
     useEffect(() => {
-        console.log(vessels);
         if(vessels.waiting){
             setLoading(true);
         }else{
@@ -36,8 +34,8 @@ const VesselArrivedForm = ({  }) => {
         content = (<div >loading...</div>);
     }else{
         content = (<Form onSubmit={submitArrived}>
-        
-            <input type="text" onChange={(e) => {
+        <h5>Mark Vessel As Arrived</h5>
+            <input type="text" autoFocus="true" placeholder="vessel's name" onChange={(e) => {
                 setForm({ ...veeselArrivedForm, name: e.target.value})
             }}></input>
             <Button >arrived</Button>

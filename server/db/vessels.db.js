@@ -5,12 +5,12 @@ let data = [
         "name": "Black Pearl",
         "timeIntervalsInTorruga": [
             {
-                "start": 1602521300,
-                "end": 1602522480
+                "start": 160232133200,
+                "end": 1603379661975
             },
             {
-                "start": 1602321300,
-                "end": 1602421300
+                "start": 160332133300,
+                "end": 160332136300
             }
         ]
     },
@@ -18,8 +18,8 @@ let data = [
         "name": "Jack Sparrow",
         "timeIntervalsInTorruga": [
             {
-                "start": 1602321300,
-                "end": 1602421300
+                "start": 160232133300,
+                "end": 160232133322
             }
         ]
     },
@@ -27,11 +27,11 @@ let data = [
         "name": "Davy Jones",
         "timeIntervalsInTorruga": [
             {
-                "start": 1602321333,
-                "end": 1602421321
+                "start": 160232133300,
+                "end": 160232133310
             },
             {
-                "start": 1603117622777
+                "start": 160232133100
             },
         ]
     }
@@ -44,7 +44,7 @@ const generateNewId = () => {
 const formatVessel = (vessel) => {
 
     vessel.timeIntervalsInTorruga = vessel.timeIntervalsInTorruga || [];
-    
+
     if (vessel.timeIntervalsInTorruga &&
         vessel.timeIntervalsInTorruga[vessel.timeIntervalsInTorruga.length - 1] &&
         !vessel.timeIntervalsInTorruga[vessel.timeIntervalsInTorruga.length - 1].end) {
@@ -52,15 +52,106 @@ const formatVessel = (vessel) => {
     } else {
         vessel.status = constants.VESSEL_STATUSES.OUT;
     }
+
     vessel.id = generateNewId();
     return vessel;
 }
 
-const rearrangeData = () => {
+const calcOverLappingVessels = (veesselId, vesselName, start, end) => {
+    let allVessels = data; // todo: with a real db: query by status & in between dates
+    let overLappingVeeslesToTimeDiff = {};
 
+    end = end?end : Date.now();
+
+    // should query 
+    allVessels.forEach((veesel) => {
+        // if (veesel.status.name == constants.VESSEL_STATUSES.DOC_IN_PORT.name && veesel.id != veesselId) {
+        if (veesel.id != veesselId) {
+
+            if (!overLappingVeeslesToTimeDiff[veesel.id]) {
+                overLappingVeeslesToTimeDiff[veesel.id] = {overlap: 0, vesselName: veesel.name};
+            }
+
+            let currTime = veesel.timeIntervalsInTorruga[veesel.timeIntervalsInTorruga.length - 1];
+
+            let totalTimeTogether = calcOverLapTime(start, end, currTime);
+            overLappingVeeslesToTimeDiff[veesel.id].overlap += totalTimeTogether;
+
+            if(!currTime.overlap_map){
+                currTime.overlap_map = {};
+            }
+
+            if(!currTime.overlap_map[veesselId]){
+                currTime.overlap_map[veesselId] = {overlap: 0, vesselName: vesselName};
+            }
+
+            currTime.overlap_map[veesselId].overlap += totalTimeTogether;
+            
+            veesel.timeIntervalsInTorruga[veesel.timeIntervalsInTorruga.length - 1] = currTime;
+        }
+    });
+
+    return overLappingVeeslesToTimeDiff;
+}
+
+
+const calcOverLappingVesselsOverAllTimes = (veesselId, start, end) => {
+    let allVessels = data; // todo: with a real db: query by status & in between dates
+    let overLappingVeeslesToTimeDiff = {};
+
+    end = end?end : Date.now();
+
+    // should query 
+    allVessels.forEach((veesle) => {
+        if (veesle.id != veesselId) {
+            if (!overLappingVeeslesToTimeDiff[veesle.id]) {
+                overLappingVeeslesToTimeDiff[veesle.id] = {overlap: 0, vesselName: veesle.name};
+            }
+
+            for (let timeIndex in veesle.timeIntervalsInTorruga) {
+                let currTime = veesle.timeIntervalsInTorruga[timeIndex];
+                overLappingVeeslesToTimeDiff[veesle.id].overlap += calcOverLapTime(start, end, currTime);
+            }
+
+        }
+    });
+
+    return overLappingVeeslesToTimeDiff;
+}
+
+calcOverLapTime = (start, end, currTime) => {
+
+    // no chance of overlap
+    /*if (currTime.end > start || currTime.start > end) {
+        return 0;
+    }*/
+
+    let startToTake = Math.max(start, currTime.start);
+    let endToCalcBy = Math.min(end, currTime.end ? currTime.end : Date.now());
+
+    let timeDiff = endToCalcBy - startToTake;
+
+    if (timeDiff > 0) {       
+        return timeDiff;
+    }
+    return 0;
+}
+
+const rearrangeData = () => {
+    // first itartion for status init.
     data = data.map((vessel) => {
         return formatVessel(vessel);
     });
+
+    // second itartion for overlapping
+    for (let index in data) {
+
+        for (let timeIndex in data[index].timeIntervalsInTorruga) {
+            let time = data[index].timeIntervalsInTorruga[timeIndex];
+
+            data[index].timeIntervalsInTorruga[timeIndex].overlap_map = calcOverLappingVesselsOverAllTimes(data[index].id, time.start, time.end);
+        }
+    }
 }
 
 rearrangeData();
@@ -86,14 +177,12 @@ const getById = (id) => {
 };
 
 const getAll = () => {
-
     return new Promise((resolve, reject) => {
         resolve(data);
     });
 };
 
 const deleteByName = (name) => {
-    console.log(name, data);
     return new Promise((resolve, reject) => {
 
         if (!name) {
@@ -110,7 +199,6 @@ const deleteByName = (name) => {
 
 const createNew = (newVessel) => {
     return new Promise((resolve, reject) => {
-        // todo: check if it didnt arrive allready 
         if (!newVessel) {
             return reject("can create an empty vassel");
         }
@@ -123,16 +211,15 @@ const createNew = (newVessel) => {
 
 const updateById = (id, body) => {
     return new Promise((resolve, reject) => {
-        // todo: check if it didnt arrive allready 
         if (!id || !body) {
             return reject("cant update missing params");
         }
 
         for (let index in data) {
-           
+
             if (data[index].id == id) {
                 data[index] = formatVessel(body);
-                return resolve(data[index]);               
+                return resolve(data[index]);
             }
         }
 
@@ -140,4 +227,4 @@ const updateById = (id, body) => {
     });
 }
 
-module.exports = { getByName, getById, getAll, deleteByName, createNew, updateById };
+module.exports = { getByName, getById, getAll, deleteByName, createNew, updateById, calcOverLappingVessels };

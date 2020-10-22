@@ -1,8 +1,30 @@
 ul.times-in-doc{
     list-style: none;
+    overflow-y: scroll;
+    height: 222px;
     li{
-        background-color: white;
+        background-color: #ffffffe3;
         margin: 10px;
         padding: 10px;
+
+        .overlap{
+            text-align: left; 
+            font-weight: 300;
+            label{
+                text-transform: capitalize;
+            }
+        }
     }
+}
+
+.times-in-doc-summary.row {
+    font-size: 14pt;
+    font-weight: 300;
+    display: flex;
+    justify-content: space-around;
+    width: 600px;
+}
+
+.flex{
+    display: flex; 
 }

@@ -4,6 +4,7 @@ import './VesselStatus.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import TimeCounter from '../TimeCounter/TimeCounter';
 import { Button } from 'reactstrap';
+import { veeselsConstants } from '../../constants/veesels.constants';
 
 const VesselStatus = ({ status, timeIntervalsInTorruga }) => {
 
@@ -15,10 +16,10 @@ const VesselStatus = ({ status, timeIntervalsInTorruga }) => {
         statusText = "status unavailable";
         timerContent = "";
     } else {
-        statusClass = `status status-${status.name == "DOC_IN_PORT" ? "green" : "gray"}`;
+        statusClass = `status status-${status.name == veeselsConstants.STATUSES.DOC_IN_PORT ? "green" : "gray"}`;
         statusText = status.display;
 
-        if (status.name == "DOC_IN_PORT")
+        if (status.name == veeselsConstants.STATUSES.DOC_IN_PORT)
             timerContent = (<TimeCounter startAt={timeIntervalsInTorruga[timeIntervalsInTorruga.length - 1].start}
             ></TimeCounter>);
     }

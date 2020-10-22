@@ -1,0 +1,46 @@
+.App{
+  background-image: url(/img/sketch_1.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background-position: 1px -299px;
+    text-align: center;
+}
+.logo{
+  background-image: url(/img/logo.png);
+    background-size: 155px;
+    background-repeat: no-repeat;
+    width: 260px;
+    background-position: -2px -11px;
+}
+.App-header {
+  background-color: #282c34;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-size: 15pt;
+  height: 70px;
+  
+  line-height: 70pt;
+}
+.logo-container{
+  display: flex;
+  justify-content: space-around;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -11,7 +11,6 @@ export const registerArrived = (data) => {
         vesselsService.registerArrived(data)
         .then(
           result => {
-              console.log(result);
             if(result) {
               if(result.error){
                 dispatch(failure(result));
@@ -117,5 +116,36 @@ export const getById = (id) => {
         function request() { return { type: veeselsConstants.GET_BY_ID_REQUEST } }
         function success(data) { return { type: veeselsConstants.GET_BY_ID_SUCCESS, data } }
         function failure(error) { return { type: veeselsConstants.GET_BY_ID_FAILURE, error } }
+    }
+};
+
+
+
+
+export const getAll = () => {
+    return (dispatch) => {
+
+        dispatch(request());
+        
+        vesselsService.getAll()
+        .then(
+          result => {
+            if(result) {
+              if(result.error){
+                dispatch(failure(result));
+              } else {
+                dispatch(success(result));
+              }
+            }
+          },
+          error => {
+            dispatch(failure(error.toString()));
+          }
+      );
+
+        
+        function request() { return { type: veeselsConstants.GET_ALL_REQUEST } }
+        function success(data) { return { type: veeselsConstants.GET_ALL_SUCCESS, data } }
+        function failure(error) { return { type: veeselsConstants.GET_ALL_FAILURE, error } }
     }
 };

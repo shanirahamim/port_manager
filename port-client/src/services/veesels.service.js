@@ -88,9 +88,28 @@ const getById = async (id) => {
 };
 
 
+const getAll = async () => {
+    let targetUrl = `${config.API_URL}${veeselsConstants.GET_ALL_ENDPOINT}`;
+    
+	let requestData = {
+		method: veeselsConstants.GET_ALL_METHOD,
+		cache: 'no-cache',
+		headers: new Headers({
+			'Content-Type': 'application/json',
+		})
+	};
+
+    const myRequest = new Request(targetUrl, requestData);
+    
+    let response = await fetch(myRequest);
+    return await response.json();
+};
+
+
 export const vesselsService = {
     registerArrived,
     markLeft,
     removeVessel,
-    getById
+    getById,
+    getAll
 }

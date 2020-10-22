@@ -3,6 +3,10 @@ const vesselDb = require('./../../db/vessels.db');
 
 class Vessel {
 
+    calcOverLappingVessels = (veesselId, veesselName, start, end) => {
+        return vesselDb.calcOverLappingVessels(veesselId, veesselName, start, end);
+    }
+
     async getAll() {
         return await vesselDb.getAll();
     }

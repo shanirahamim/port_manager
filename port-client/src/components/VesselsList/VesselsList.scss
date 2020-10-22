@@ -1,12 +1,13 @@
 #vesseles-list-container {
-    height: 86%;
+    // height: 86%;
     font-family: "Segoe UI";
     font-size: 20px;
     color: #000000;
     overflow-y: scroll;
     background-color: #2f5a7996;
-    min-height: 300px;
-    max-height: 897px;
+    // min-height: 687px;
+    // max-height: 687px;
+    height: 687px;
     ul {
         list-style: none;
 
@@ -26,7 +27,7 @@
 
 @media (max-width: 1600px) {
     #vesseles-list-container {
-        height: 52%;
-        max-height: 850px;
+        // height: 52%;
+        height: 427px;
     }
 }
