@@ -5,26 +5,24 @@ import VesselsList from '../VesselsList/VesselsList';
 import { InputGroup, InputGroupAddon, Button, Input, Nav, NavItem } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './WsDashboard.scss';
-
-const ENDPOINT = "http://127.0.0.1:8111";
+import { config } from '../../config';
 
 export default function WsDashboard() {
     const [vessels, setVessels] = useState([]);
     const [test, setTest] = useState("from clien");
-    const [filterBy, setFilterBy] = useState({only_in_doc: false, name:""});
+    const [filterBy, setFilterBy] = useState({ only_in_doc: false, name: "" });
 
     useEffect(() => {
-        const socket = socketIOClient(ENDPOINT);
+        const socket = socketIOClient(config.WEB_SOCKETS_SERVER_URL);
         let vesselsA = vessels;
 
         socket.on("vessels_updated", data => {
-            console.log(data);
+            //console.log(data);
             vesselsA = data;
             setVessels(data);
         });
 
         socket.on("test", (data, a) => {
-            console.log(test, data, a);
             setTest(data);
         });
     }, []);
@@ -38,19 +36,19 @@ export default function WsDashboard() {
                 <NavItem >
                     <div id="filter-by">
                         <span>
-                        <input placeholder="Filter Ships.." value={filterBy.name} type="text" onChange={(event) => {
-                            let filter = event.target.value ? event.target.value.toLocaleLowerCase() : "";
-                            setFilterBy({ ...filterBy, name: filter});
-                        }} />
-                        <FontAwesomeIcon icon="search" />
+                            <input placeholder="Filter Ships.." value={filterBy.name} type="text" onChange={(event) => {
+                                let filter = event.target.value ? event.target.value.toLocaleLowerCase() : "";
+                                setFilterBy({ ...filterBy, name: filter });
+                            }} />
+                            <FontAwesomeIcon icon="search" />
 
                         </span>
                         <span>
-                        <FontAwesomeIcon icon={filterBy.only_in_doc?"toggle-on":"toggle-off"} onClick={(e) => {
-                            setFilterBy({ ...filterBy, only_in_doc: !filterBy.only_in_doc})
-                            }}/> show only in doc
+                            <FontAwesomeIcon icon={filterBy.only_in_doc ? "toggle-on" : "toggle-off"} onClick={(e) => {
+                                setFilterBy({ ...filterBy, only_in_doc: !filterBy.only_in_doc })
+                            }} /> show only in doc
                             </span>
-                        
+
                     </div>
                 </NavItem>
                 {/* <InputGroup className="">
@@ -67,9 +65,8 @@ export default function WsDashboard() {
                     <VesselsList vessels={filterBy.length == 0 ? vessels :
                         vessels.filter((vessel) => {
                             let filtered = true;
-                            console.log(vessel,filterBy)
-                            if(filterBy.only_in_doc){
-                                filtered = vessel.status.name == "DOC_IN_PORT"; 
+                            if (filterBy.only_in_doc) {
+                                filtered = vessel.status.name == "DOC_IN_PORT";
                             }
                             return vessel.name.toLocaleLowerCase().indexOf(filterBy.name) != -1 && filtered;
                         })}></VesselsList>

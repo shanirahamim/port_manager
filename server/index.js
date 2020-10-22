@@ -4,9 +4,8 @@ const socketIo = require("socket.io");
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const vesselsRouter = require('./src/vessels/vessels.router');
-
+const cors = require('cors')
 require('dotenv').config();
-
 const app = express();
 app.config = require('./config/index');
 
@@ -17,6 +16,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.raw());
 
 app.use(morgan('common'));
+
+//CORS Middleware
+app.use(cors({ allowedHeaders: 'Content-Type,Authorization'}));
 
 app.get('/', function (req, res) {
     res.send("It works!");
@@ -30,8 +32,6 @@ app.listen(app.get('port'), () => {
 
 
 const VesselService = require('./src/vessels/vessels.service');
-
-
 const server = http.createServer(app);
 
 const io = socketIo(server);

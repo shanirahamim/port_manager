@@ -1,0 +1,25 @@
+.status-container {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 12pt;
+    color: white;
+    min-width: 110pt;
+    font-weight: 100;
+    margin-bottom: 31px;
+    > * {
+        margin: 1px;
+        color: white;
+    }
+
+    .status {
+        margin-right: 3pt;
+    }
+    .status-green {
+        color: lightgreen;
+    }
+    .status-gray {
+        color: gray;
+    }
+}

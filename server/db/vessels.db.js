@@ -42,7 +42,12 @@ const generateNewId = () => {
 }
 
 const formatVessel = (vessel) => {
-    if (!vessel.timeIntervalsInTorruga[vessel.timeIntervalsInTorruga.length - 1].end) {
+
+    vessel.timeIntervalsInTorruga = vessel.timeIntervalsInTorruga || [];
+    
+    if (vessel.timeIntervalsInTorruga &&
+        vessel.timeIntervalsInTorruga[vessel.timeIntervalsInTorruga.length - 1] &&
+        !vessel.timeIntervalsInTorruga[vessel.timeIntervalsInTorruga.length - 1].end) {
         vessel.status = constants.VESSEL_STATUSES.DOC_IN_PORT;
     } else {
         vessel.status = constants.VESSEL_STATUSES.OUT;
@@ -65,7 +70,17 @@ const getByName = (name) => {
     return new Promise((resolve, reject) => {
         resolve(data.filter((vessel) => {
             return vessel.name == name
-        }));
+        })[0]);
+
+    });
+};
+
+const getById = (id) => {
+
+    return new Promise((resolve, reject) => {
+        resolve(data.filter((vessel) => {
+            return vessel.id == id
+        })[0]);
 
     });
 };
@@ -98,7 +113,7 @@ const createNew = (newVessel) => {
         // todo: check if it didnt arrive allready 
         if (!newVessel) {
             return reject("can create an empty vassel");
-        } 
+        }
 
         newVessel = formatVessel(newVessel);
         data.push(newVessel);
@@ -106,4 +121,23 @@ const createNew = (newVessel) => {
     });
 };
 
-module.exports = { getByName, getAll, deleteByName, createNew };
+const updateById = (id, body) => {
+    return new Promise((resolve, reject) => {
+        // todo: check if it didnt arrive allready 
+        if (!id || !body) {
+            return reject("cant update missing params");
+        }
+
+        for (let index in data) {
+           
+            if (data[index].id == id) {
+                data[index] = formatVessel(body);
+                return resolve(data[index]);               
+            }
+        }
+
+        reject("veesel not found");
+    });
+}
+
+module.exports = { getByName, getById, getAll, deleteByName, createNew, updateById };

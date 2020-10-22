@@ -4,6 +4,7 @@ import './Vessel.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import TimeCounter from '../TimeCounter/TimeCounter';
 import { Button } from 'reactstrap';
+import VesselStatus from '../VesselStatus/VesselStatus';
 
 const Vessel = ({ vessel }) => {
 
@@ -42,7 +43,7 @@ const Vessel = ({ vessel }) => {
     } else {
 
         content = (<div>
-            {getStatus()}
+            <VesselStatus status={vessel.status} timeIntervalsInTorruga={vessel.timeIntervalsInTorruga}></VesselStatus>
 
             <h4>
                 <FontAwesomeIcon icon="ship" />

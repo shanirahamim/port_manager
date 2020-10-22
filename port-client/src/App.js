@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import WsDashboard from './components/WsDashboard/WsDashboard';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCircle, faCheckSquare, faCoffee, faShip, faSearch, faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,6 +11,7 @@ import VesselView from './components/VesselView/VesselView';
 library.add(faCircle, faCheckSquare, faCoffee, faShip, faSearch, faToggleOff, faToggleOn)
 
 function App() {
+  const history = useHistory();
 
   // todo: move to css & switch between classes.
   let sectionStyle = {
@@ -26,19 +27,20 @@ function App() {
 
   let logoStyle = {
     backgroundImage: `url(${process.env.PUBLIC_URL}/img/logo.png)`,
-    backgroundSize: '231px',
+    backgroundSize: '155px',
     backgroundRepeat: 'no-repeat',   
     width: '260px',
-    backgroundPosition: '-4px -20px'
+//    backgroundPosition: '-4px -20px'
+backgroundPosition: '-2px -11px'
   }
   return (
     <div className="App" style={sectionStyle}>
       <header>
         <div className="App-header">
-          <div className="logo-container">
-            <div src={`${process.env.PUBLIC_URL}/img/logo.png`} style={logoStyle}></div>
+          <a className="logo-container" href="/">
+            <div src={`${process.env.PUBLIC_URL}/img/logo.png`} style={logoStyle} ></div>
             <div>{"Taratuga"}</div>
-          </div>
+          </a>
         </div>
       </header>
       <Router>

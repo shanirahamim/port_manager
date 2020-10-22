@@ -4,13 +4,16 @@ import './TimeCounter.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button } from 'reactstrap';
 
-const TimeCounter = ({ startAt }) => {
+const TimeCounter = ({ startAt, endAt }) => {
 
     const [timeInDock, setTimeInDock] = useState(false);
 
     useEffect(() => {
-
-        
+        // disable moving timer if period was given in advanced
+        if(endAt && !timeInDock){
+            setTimeInDock(calculateTime());
+            return;
+        }
         const timer=setInterval(() => {
             setTimeInDock(calculateTime());
           }, 1000);
@@ -22,7 +25,7 @@ const TimeCounter = ({ startAt }) => {
    const calculateTime = () => {
         let result = {};
 
-        if (timeInDock) { // only increase timer
+        if (timeInDock && !endAt) { // only increase timer
             if (timeInDock.seconds !== 59) {
                 result.seconds = timeInDock.seconds+1;
                 result.minutes = timeInDock.minutes;
@@ -48,7 +51,9 @@ const TimeCounter = ({ startAt }) => {
                 }
             }
         } else {
-            let timeDiff = (Date.now() - startAt) / 1000;
+
+            let endDiff = endAt || Date.now();
+            let timeDiff = (endDiff - startAt) / 1000;
             result = {
                 seconds: Math.floor(timeDiff % 60),
                 minutes:  Math.floor((timeDiff/60) % (60)),

@@ -28,7 +28,7 @@ class WsClientsService{
         
         Object.keys( WsClientsService.clients).forEach((key) => {
             
-            console.log("notif:" , key, WsClientsService.clients[key].emit);
+            console.log("notif:" , key);
             WsClientsService.clients[key].emit(message, data);
         });
     }
